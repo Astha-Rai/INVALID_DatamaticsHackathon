@@ -1,0 +1,225 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="TruBotDesigner.Workflow"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:maes="clr-namespace:Microsoft.Activities.Extensions.Statements;assembly=Microsoft.Activities.Extensions"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:tca="clr-namespace:TruBot.Core.Activities;assembly=TruBot.Core.Activities"
+ xmlns:twa="clr-namespace:TruBot.Workbook.Activities;assembly=TruBot.Excel.Activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="Out_ConfigDict" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+  </x:Members>
+  <sap2010:WorkflowViewState.IdRef>TruBotDesigner.Workflow_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>WorkflowExecutorExtensions</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>TruBotExecutor</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>TruBot.Email</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>TruBot.Cryptography</AssemblyReference>
+      <AssemblyReference>TruBot.FTP.Activities</AssemblyReference>
+      <AssemblyReference>TruBot.PDF</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="Config" />
+      <Variable x:TypeArguments="x:Boolean" Name="ValidateDataResult" />
+      <Variable x:TypeArguments="x:String" Name="CFMailAddress" />
+      <Variable x:TypeArguments="x:String" Name="Pass" />
+      <Variable x:TypeArguments="x:String" Name="CFMailFolder" />
+      <Variable x:TypeArguments="x:String" Name="CFMailSubjectFilter" />
+      <Variable x:TypeArguments="x:String" Name="CSTMailAddress" />
+    </Sequence.Variables>
+    <Assign DisplayName="Initialize Config Dictionary (Argument)" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[Out_ConfigDict]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(of String, Object)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <tca:CreateDataTable DataTable="[Config]" DataTableWizard="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Value&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" DisplayName="Create DataTable" sap2010:WorkflowViewState.IdRef="CreateDataTable_1" Pause="True" />
+    <twa:ReadRange DataTable="[Config]" DisplayName="Read Range" Headers="True" sap2010:WorkflowViewState.IdRef="ReadRange_1" Pause="True" Range="A1:B6" SheetName="Sheet1" WorkbookPath="Config.xlsx" />
+    <tca:ForEachDataRow ElementIndex="{x:Null}" DataTable="[Config]" DisplayName="ForEach Row in DT Config, Assign it to Config Dictionary" sap2010:WorkflowViewState.IdRef="ForEachDataRow_1" Pause="True">
+      <tca:ForEachDataRow.Body>
+        <ActivityAction x:TypeArguments="sd:DataRow">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[Out_ConfigDict]" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_1" Key="[row(&quot;Name&quot;).ToString.Trim]" Value="[row(&quot;Value&quot;)]" />
+          </Sequence>
+        </ActivityAction>
+      </tca:ForEachDataRow.Body>
+    </tca:ForEachDataRow>
+    <tca:ValidateData DataTable="[Config]" DisplayName="Validate Data" sap2010:WorkflowViewState.IdRef="ValidateData_1" Pause="True" Result="[ValidateDataResult]" Validate="[New List(of String) From {&quot;Value&quot;}]" />
+    <If Condition="[ValidateDataResult = False]" DisplayName="If Config is Empty" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence DisplayName="Get Configuration from User &amp; Assign to Config Excel" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <tca:InputMessageBox InputList="{x:Null}" DisplayName="Input Message Box" sap2010:WorkflowViewState.IdRef="InputMessageBox_1" IsPassword="False" MessageText="Please enter the Mail Address to fetch Customer Feedback Emails From:-" Pause="True" Title="First Run">
+            <tca:InputMessageBox.Result>
+              <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("MailAddress")]</OutArgument>
+            </tca:InputMessageBox.Result>
+          </tca:InputMessageBox>
+          <tca:InputMessageBox InputList="{x:Null}" DisplayName="Input Message Box" sap2010:WorkflowViewState.IdRef="InputMessageBox_2" IsPassword="True" MessageText="Please enter the Password for the Mail Account:- " Pause="True" Title="First Run">
+            <tca:InputMessageBox.Result>
+              <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("Password")]</OutArgument>
+            </tca:InputMessageBox.Result>
+          </tca:InputMessageBox>
+          <tca:InputMessageBox InputList="{x:Null}" DisplayName="Input Message Box" sap2010:WorkflowViewState.IdRef="InputMessageBox_3" IsPassword="False" MessageText="Please specify the Mail-Folder to fetch the Mails from:-" Pause="True" Title="First Run">
+            <tca:InputMessageBox.Result>
+              <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("MailFolder")]</OutArgument>
+            </tca:InputMessageBox.Result>
+          </tca:InputMessageBox>
+          <tca:InputMessageBox InputList="{x:Null}" DisplayName="Input Message Box" sap2010:WorkflowViewState.IdRef="InputMessageBox_4" IsPassword="False" MessageText="Please specify the Cusomer Feedback Subject to filter the Mails out from:-" Pause="True" Title="First Run">
+            <tca:InputMessageBox.Result>
+              <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("MailSubject")]</OutArgument>
+            </tca:InputMessageBox.Result>
+          </tca:InputMessageBox>
+          <tca:InputMessageBox InputList="{x:Null}" DisplayName="Input Message Box" sap2010:WorkflowViewState.IdRef="InputMessageBox_5" IsPassword="False" MessageText="Please specify the Cusomer Service Team Mail Address to send analysis too:-" Pause="True" Title="First Run">
+            <tca:InputMessageBox.Result>
+              <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("CSTMailAddress")]</OutArgument>
+            </tca:InputMessageBox.Result>
+          </tca:InputMessageBox>
+          <twa:WriteCell CellAddress="B2" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_1" Pause="True" SheetName="Sheet1" Value="[Out_ConfigDict(&quot;MailAddress&quot;).ToString]" WorkbookPath="Config.xlsx" />
+          <twa:WriteCell CellAddress="B3" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_2" Pause="True" SheetName="Sheet1" Value="[Out_ConfigDict(&quot;Password&quot;).ToString]" WorkbookPath="Config.xlsx" />
+          <twa:WriteCell CellAddress="B4" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_3" Pause="True" SheetName="Sheet1" Value="[Out_ConfigDict(&quot;MailFolder&quot;).ToString]" WorkbookPath="Config.xlsx" />
+          <twa:WriteCell CellAddress="B5" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_4" Pause="True" SheetName="Sheet1" Value="[Out_ConfigDict(&quot;MailSubject&quot;).ToString]" WorkbookPath="Config.xlsx" />
+          <twa:WriteCell CellAddress="B6" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_5" Pause="True" SheetName="Sheet1" Value="[Out_ConfigDict(&quot;CSTMailAddress&quot;).ToString]" WorkbookPath="Config.xlsx" />
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <tca:MultipleAssign DisplayName="Multiple Assign" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+          <tca:MultipleAssign.AssignOperations>
+            <scg:List x:TypeArguments="tca:OperationAssign" Capacity="8">
+              <tca:OperationAssign>
+                <tca:OperationAssign.To>
+                  <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("MailAddress")]</OutArgument>
+                </tca:OperationAssign.To>
+                <tca:OperationAssign.Value>
+                  <InArgument x:TypeArguments="x:Object">[Config.Rows(0).Item(0)]</InArgument>
+                </tca:OperationAssign.Value>
+              </tca:OperationAssign>
+              <tca:OperationAssign>
+                <tca:OperationAssign.To>
+                  <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("Password")]</OutArgument>
+                </tca:OperationAssign.To>
+                <tca:OperationAssign.Value>
+                  <InArgument x:TypeArguments="x:Object">[Config.Rows(1).Item(0)]</InArgument>
+                </tca:OperationAssign.Value>
+              </tca:OperationAssign>
+              <tca:OperationAssign>
+                <tca:OperationAssign.To>
+                  <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("MailFolder")]</OutArgument>
+                </tca:OperationAssign.To>
+                <tca:OperationAssign.Value>
+                  <InArgument x:TypeArguments="x:Object">[Config.Rows(2).Item(0)]</InArgument>
+                </tca:OperationAssign.Value>
+              </tca:OperationAssign>
+              <tca:OperationAssign>
+                <tca:OperationAssign.To>
+                  <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("MailSubject")]</OutArgument>
+                </tca:OperationAssign.To>
+                <tca:OperationAssign.Value>
+                  <InArgument x:TypeArguments="x:Object">[Config.Rows(3).Item(0)]</InArgument>
+                </tca:OperationAssign.Value>
+              </tca:OperationAssign>
+              <tca:OperationAssign>
+                <tca:OperationAssign.To>
+                  <OutArgument x:TypeArguments="x:Object">[Out_ConfigDict("CSTMailAddress")]</OutArgument>
+                </tca:OperationAssign.To>
+                <tca:OperationAssign.Value>
+                  <InArgument x:TypeArguments="x:Object">[Config.Rows(4).Item(0)]</InArgument>
+                </tca:OperationAssign.Value>
+              </tca:OperationAssign>
+            </scg:List>
+          </tca:MultipleAssign.AssignOperations>
+        </tca:MultipleAssign>
+      </If.Else>
+    </If>
+    <tca:DisplayMessage Selection="{x:Null}" Title="{x:Null}" AlwaysOnTop="True" Buttons="Ok" DisplayName="Display Message" MessageText="[&quot;Init Complete&quot;]" Pause="True" sap2010:WorkflowViewState.IdRef="DisplayMessage_1" />
+    <sads:DebugSymbol.Symbol>d09EOlxIYWNrYXRob25zXEN1c3RvbWVyIEZlZWRiYWNrIFByb2Nlc3NpbmdcQ3VzdG9tZXIgRmVlZGJhY2sgQW5hbHlzaXNcSW5pdC54YW1sWDMDqgEOAgEBPQVEDgIBZ0UFRbMLAgFkRgVGygECAV5HBVIaAgFVUwVT4AECAU9UBacBCgIBBKgBBagB6QECAQJCSkJtAgFqP0s/WwIBaEUkRS4CAWVGHkYoAgFiRpIBRpkBAgFhRqQBRqwBAgFgRroBRscBAgFfRztHRQIBXE0LTxYCAVZTrQFT3QECAVRTIVMrAgFSU40BU6MBAgFQVBNUMQIBBVYJdRQCARd4CaUBHgIBB6gBiQGoAaYBAgEDTg1O6wECAVdXC1shAgFKXAtgIQIBRWELZSECAUBmC2ohAgE7awtvIQIBNnALcOoBAgEwcQtx5wECASpyC3LpAQIBJHMLc+oBAgEedAt07QECARiAATqAAVICARZ9O31aAgEUiAE6iAFSAgEThQE7hQFXAgERkAE6kAFSAgEQjQE7jQFZAgEOmAE6mAFSAgENlQE7lQFaAgELoAE6oAFSAgEKnQE7nQFdAgEITs4BTugBAgFbTlNOZQIBWU6gAU7HAQIBWFk3WVYCAU1XqAFX8AECAUxXhAJXjwICAUteN15TAgFIXKcBXNoBAgFHXO4BXPkBAgFGYzdjVQIBQ2GoAWHiAQIBQmH2AWGBAgIBQWg3aFYCAT5mqAFm9AECAT1miAJmkwICATxtN21ZAgE5a6gBa/UBAgE4a4kCa5QCAgE3cCZwKgIBNXCYAXDMAQIBM3CJAXCRAQIBMnDaAXDnAQIBMXEmcSoCAS9xmAFxyQECAS1xiQFxkQECASxx1wFx5AECAStyJnIqAgEpcpgBcssBAgEncokBcpEBAgEmctkBcuYBAgElcyZzKgIBI3OYAXPMAQIBIXOJAXORAQIBIHPaAXPnAQIBH3QmdCoCAR10mAF0zwECARt0iQF0kQECARp03QF06gECARl7D4IBJQMBBwaDAQ+KASUDAQcFiwEPkgElAwEHBJMBD5oBJQMBBwObAQ+iASUDAQcC</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="460.8,60" />
+      <sap2010:ViewStateData Id="CreateDataTable_1" sap:VirtualizedContainerService.HintSize="460.8,58.4" />
+      <sap2010:ViewStateData Id="ReadRange_1" sap:VirtualizedContainerService.HintSize="460.8,83.2" />
+      <sap2010:ViewStateData Id="AddToDictionary`2_1" sap:VirtualizedContainerService.HintSize="375.2,135.2" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="394.4,228" />
+      <sap2010:ViewStateData Id="ForEachDataRow_1" sap:VirtualizedContainerService.HintSize="460.8,376.8" />
+      <sap2010:ViewStateData Id="ValidateData_1" sap:VirtualizedContainerService.HintSize="460.8,22.4" />
+      <sap2010:ViewStateData Id="InputMessageBox_1" sap:VirtualizedContainerService.HintSize="311.2,92.8" />
+      <sap2010:ViewStateData Id="InputMessageBox_2" sap:VirtualizedContainerService.HintSize="311.2,92.8" />
+      <sap2010:ViewStateData Id="InputMessageBox_3" sap:VirtualizedContainerService.HintSize="311.2,92.8" />
+      <sap2010:ViewStateData Id="InputMessageBox_4" sap:VirtualizedContainerService.HintSize="311.2,92.8" />
+      <sap2010:ViewStateData Id="InputMessageBox_5" sap:VirtualizedContainerService.HintSize="311.2,92.8" />
+      <sap2010:ViewStateData Id="WriteCell_1" sap:VirtualizedContainerService.HintSize="311.2,116" />
+      <sap2010:ViewStateData Id="WriteCell_2" sap:VirtualizedContainerService.HintSize="311.2,116" />
+      <sap2010:ViewStateData Id="WriteCell_3" sap:VirtualizedContainerService.HintSize="311.2,116" />
+      <sap2010:ViewStateData Id="WriteCell_4" sap:VirtualizedContainerService.HintSize="311.2,116" />
+      <sap2010:ViewStateData Id="WriteCell_5" sap:VirtualizedContainerService.HintSize="311.2,116" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MultipleAssign_1" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="460.8,209.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="DisplayMessage_1" sap:VirtualizedContainerService.HintSize="460.8,24" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="480,1167.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TruBotDesigner.Workflow_1" sap:VirtualizedContainerService.HintSize="520,1327.2" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
