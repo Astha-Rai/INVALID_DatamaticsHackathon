@@ -4,7 +4,7 @@ This repository contains automation workflows and resources developed for the **
 
 ---
 
-## 📅 Project History
+## Project History
 
 - **Created:** December 2024  
 - **Event:** IIT Bombay Techfest – Datamatics Hackathon  
@@ -14,7 +14,7 @@ This repository contains automation workflows and resources developed for the **
 
 ---
 
-## 🔍 Project Overview
+## Project Overview
 
 This automation project streamlines **customer feedback collection and analysis** using TruBot Designer workflows.
 
